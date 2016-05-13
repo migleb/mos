@@ -9,7 +9,8 @@ public class CommandPrompt extends TProcess {
 
     int start = -1;
 
-    public CommandPrompt (TKernel kernel, TPState pState, TProcess pParent, int pPriority, List<TElement> pORElements) {
+    public CommandPrompt (TKernel kernel, TPState pState, TProcess pParent,
+                          int pPriority, List<TElement> pORElements) {
         super (kernel, pState, pParent, pPriority, pORElements);
     }
 
