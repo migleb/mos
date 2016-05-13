@@ -1,7 +1,5 @@
 package model_os;
 
-import java.util.List;
-
 /**
  * Created by NekoChan on 2016-05-13.
  */
@@ -13,7 +11,7 @@ public class Idle extends TProcess {
     }
 
     public void phase1 () {
-        kernel.askForResource (this, TResource.ResourceClass.IDLE, 0);
+        kernel.requestResource (this, ResourceClass.IDLE, 0);
     }
 
 }
