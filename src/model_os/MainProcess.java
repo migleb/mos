@@ -1,5 +1,6 @@
 package model_os;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,16 +15,16 @@ public class MainProcess extends TProcess {
 
     public void phase1() {
         phase = 2;
-        kernel.requestResource(this, ResourceClass.VALIDPROGRAM, 0);
+        kernel.askForResource(this, TResource.ResourceClass.VALIDPROGRAM, 0);
     }
 
-    public phase2 () throws Exception {
+    public void phase2 () throws Exception {
         phase = 1;
-        TElement validProgram = getElement(ResourceClass.VALIDPROGRAM);
+        TElement validProgram = getElement(TResource.ResourceClass.VALIDPROGRAM);
         if (validProgram.getInfo() != null) {
-            List<TElements> jobHelperElements = new ArrayList<TElements>();
+            List<TElement> jobHelperElements = new ArrayList<TElement>();
             jobHelperElements.add(validProgram);
-            kernel.createProcess (new JobHElper, kernel, TPState.READY, this, 1, jobHelperElements);
+            kernel.createProcess (new JobHelper(kernel, TPState.READY, this, 1, jobHelperElements));
         } else {
             TProcess proc = validProgram.getCreator();
             kernel.destroyProcess(proc);

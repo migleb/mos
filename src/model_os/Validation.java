@@ -14,34 +14,34 @@ public class Validation extends TProcess {
 
     public void phase1 () {
         phase = 2;
-        kernel.requestResource(this, ResourceClass.LOADEDPROGRAM, 0);
+        kernel.askForResource(this, TResource.ResourceClass.LOADEDPROGRAM, 0);
     }
 
-    public void phase2 () {
+    public void phase2 () throws Exception {
         phase = 3;
         String [] generalMemory = kernel.getGeneralMemory();
-        getElement(ResourceClass.LOADEDPROGRAM);
+        getElement(TResource.ResourceClass.LOADEDPROGRAM);
         for (int i = 0; i < generalMemory.length; i++) {
             if (i == 0 && !generalMemory[i].equalsIgnoreCase("$JOB")) {
-                kernel.releaseResource(ResourceClass.LINETOPRINT, new TElement(null, this, "Program is invalid format ($JOB missing)"));
+                kernel.freeResource(TResource.ResourceClass.LINETOPRINT, new TElement(null, this, "Program is invalid format ($JOB missing)"));
                 return;
             }
             if (i > 111) {
-                kernel.releaseResource(ResourceClass.LINETOPRINT, new TElement (null, this, "Program is invalid format (too large)"));
+                kernel.freeResource(TResource.ResourceClass.LINETOPRINT, new TElement (null, this, "Program is invalid format (too large)"));
                 return;
             }
             if (generalMemory[i].equalsIgnoreCase("$END")) {
                 phase = 1;
                 int requiredBlocks = (int)Math.ceil((i-1)/10.);
-                kernel.releaseResource(ResourceClass.VALIDPROGRAM, new TElement (null, this, String.valueOf(requiredBlocks)));
+                kernel.freeResource(TResource.ResourceClass.VALIDPROGRAM, new TElement (null, this, String.valueOf(requiredBlocks)));
                 return;
             }
         }
-        kernel.releaseResource(ResourceClass.LINETOPRINT, new TElement (null, this, "Program is not in valid format ($END missing)"));
+        kernel.freeResource(TResource.ResourceClass.LINETOPRINT, new TElement (null, this, "Program is not in valid format ($END missing)"));
     }
 
     public void phase3 () {
         phase = 1;
-        kernel.releaseResouce (ResourceClass.GENERALMEMORY, new TElement (null, this, null));
+        kernel.freeResource (TResource.ResourceClass.GENERALMEMORY, new TElement (null, this, null));
     }
 }
