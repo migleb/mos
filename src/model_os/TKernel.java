@@ -1,5 +1,6 @@
 package model_os;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Arrays;
@@ -85,13 +86,23 @@ public class TKernel implements Runnable {
 		this.stepRun = stepRun;
 	}
 	
-	public void setInputedLine(String savedLine) {
+	public void setSavedLine(String savedLine) {
 		this.savedLine = savedLine;
 	}
 	
 	@Override
 	public void run() {
-		//TODO
+		createProcess(new StartStop(this, TPState.READY, null, 2, new ArrayList<TElement>()));
+		while (true) {
+			try {
+				System.out.println("RESUME " + OSCurrentProc.getExternalName());
+				this.OSCurrentProc.resume();
+			} catch (Exception e) {
+				print("Bye!");
+				e.printStackTrace();
+				break;
+			}
+		}
 		
 	}
 	
